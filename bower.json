@@ -1,5 +1,5 @@
 {
-    "name": "ng-s3upload",
+    "name": "ng-s3upload-mobile",
     "version": "0.1.1",
     "main": "build/ng-s3upload.js",
     "dependencies": {

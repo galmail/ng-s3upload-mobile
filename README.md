@@ -1,46 +1,27 @@
-ng-s3upload - Upload to S3 using AngularJS
+ng-s3upload-mobile - Mobile Friendly File Upload to S3 using AngularJS
 ===========
 
-An AngularJS directive that allows you to simply upload files directly to AWS S3.
+This project is a fork of the original [ng-s3upload github repo](https://github.com/asafdav/ng-s3upload) from Asaf David. It adds HTML5 mobile friendly syntaxis for file validation, thanks to Francesco Iovine [media capture example](http://www.francesco.iovine.name/w3c/mediacapture/)
 
-## Setup 
-1. Create AWS S3 bucket
+## Download Options
 
-2. Grant "put/delete" permissions to everyone 
-In AWS web interface, select S3 and select the destination bucket, then 
-expand the "Permissions" sections and click on the "Add more permissions" button. Select "Everyone" and "Upload/Delete" and save.
+#### Bower 
+```
+bower install ng-s3upload-mobile
+```
 
-3. Add CORS configuration to your bucket
+#### Npm
+```
+npm install ng-s3upload-mobile
+```
 
-  In AWS web interface, select S3 and select the wanted bucket. 
-  Expand the "Permissions" section and click on the "Add CORS configuration" button. Paste the wanted CORS configuration, for example: 
-  ```XML
-  <?xml version="1.0" encoding="UTF-8"?>
-  <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-      <CORSRule>
-          <AllowedOrigin>*</AllowedOrigin>
-          <AllowedMethod>GET</AllowedMethod>
-          <AllowedMethod>POST</AllowedMethod>
-          <AllowedMethod>PUT</AllowedMethod>
-          <AllowedHeader>*</AllowedHeader>
-      </CORSRule>
-  </CORSConfiguration>
-    ```
+## Setup
 
-  In addition, create the following crossdomain.xml file and upload it to the root of your bucket.
+1. Setup your AWS S3 bucket
 
-  ```XML
-  <?xml version="1.0"?>
-  <!DOCTYPE cross-domain-policy SYSTEM
-  "http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd">
-  <cross-domain-policy>
-    <allow-access-from domain="*" secure="false" />
-  </cross-domain-policy>
-  ```
+Please refer to [this github repo](https://github.com/asafdav/ng-s3upload)
 
-  Once the CORS permissions are updated, your bucket is ready for client side uploads.
-
-4. Create a server side service that will return the needed details for uploading files to S3.
+2. Create a server side service that will return the needed details for uploading files to S3.
 your service shall return a json in the following format: 
 
   ```json
@@ -53,70 +34,18 @@ your service shall return a json in the following format:
 XXX - A policy json that is required by AWS, base64 encoded.
 YYY - HMAC and sha of your private key
 ZZZ - Your public key
-Here's a rails example, even if you're not a rails developer, read the code, it's very straight forward. 
 
-  For a php example, please refer to [this guide](https://github.com/asafdav/ng-s3upload/wiki/PHP-Creating-the-S3-Policy).
-  ```ruby
-      def s3_access_token
-        render json: {
-          policy:    s3_upload_policy,
-          signature: s3_upload_signature,
-          key:       GLOBAL[:aws_key]
-        }
-      end
-
-      protected
-
-        def s3_upload_policy
-          @policy ||= create_s3_upload_policy
-        end
-
-        def create_s3_upload_policy
-          Base64.encode64(
-            {
-              "expiration" => 1.hour.from_now.utc.xmlschema,
-              "conditions" => [ 
-                { "bucket" =>  GLOBAL[:aws_bucket] },
-                [ "starts-with", "$key", "" ],
-                { "acl" => "public-read" },
-                [ "starts-with", "$Content-Type", "" ],
-                [ "content-length-range", 0, 10 * 1024 * 1024 ]
-              ]
-            }.to_json).gsub(/\n/,'')
-        end
-
-        def s3_upload_signature
-          Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha1'), GLOBAL[:aws_secret], s3_upload_policy)).gsub("\n","")
-        end
-  ```
-  
-  The following code generates an upload policy that will be used by S3, in this example the maximum file size is limited to 10MB (10 * 1024 * 1024), update it to match your requirments. for a full list of S3's policy options, please refer to [AWS documentation](http://docs.aws.amazon.com/AmazonS3/latest/dev/HTTPPOSTExamples.html#HTTPPOSTExamplesTextAreaPolicy).
-  
-
-## How to get it ? 
-
-#### Manual Download
-Download the from [here](https://github.com/asafdav/ng-s3upload/releases)
-
-#### Bower 
-```
-bower install ng-s3upload
-```
-
-#### Npm
-```
-npm install ng-s3upload
-```
-
+For more info on how to do it, please check [this github repo](https://github.com/asafdav/ng-s3upload)
 
 ## Usage
+
 1. Add ng-s3upload.min.js to your main file (index.html)
 
 2. If you have not already done so, include [ngSanitize]( http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-sanitize.js) in your application.
 
 3. Set `ngS3upload` as a dependency in your module
   ```javascript
-  var myapp = angular.module('myapp', ['ngS3upload'])
+  var myapp = angular.module('myapp', ['ngS3upload-mobile'])
   ```
 
 4. Add s3-upload directive to the wanted element, example:
@@ -143,6 +72,4 @@ app.config(function(ngS3Config) {
   ngS3Config.theme = 'bootstrap3';
 });
 ```
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-s3upload/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

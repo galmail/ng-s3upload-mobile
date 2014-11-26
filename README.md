@@ -1,7 +1,7 @@
 ng-s3upload-mobile - Mobile Friendly File Upload to S3 using AngularJS
 ===========
 
-This project is a fork of the original [ng-s3upload github repo](https://github.com/asafdav/ng-s3upload) from Asaf David. It adds HTML5 mobile friendly syntaxis for file validation, thanks to Francesco Iovine [media capture example](http://www.francesco.iovine.name/w3c/mediacapture/)
+This project is a fork of the original [ng-s3upload github repo](https://github.com/asafdav/ng-s3upload) by Asaf David. It adds HTML5 mobile friendly syntaxis for file validation, thanks to Francesco Iovine [media capture example](http://www.francesco.iovine.name/w3c/mediacapture/)
 
 ## Download Options
 

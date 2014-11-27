@@ -39,7 +39,7 @@ For more info on how to do it, please check [this github repo](https://github.co
 
 ## Usage
 
-1. Add ng-s3upload.min.js to your main file (index.html)
+1. Add ng-s3upload.js to your main file (index.html)
 
 2. If you have not already done so, include [ngSanitize]( http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-sanitize.js) in your application.
 

@@ -34,13 +34,20 @@ angular.module('ngS3upload.directives', []).
               uploadingKey: 'uploading',
               folder: '',
               enableValidation: true,
-              targetFilename: null
+              targetFilename: null,
+              fileType: null,
+              buttonName: 'Upload',
+              buttonStyle: ''
             }, opts);
+
             var bucket = scope.$eval(attrs.bucket);
+            scope.buttonName = opts.buttonName;
+            scope.buttonStyle = opts.buttonStyle;
 
             // Bind the button click event
-            var button = angular.element(element.children()[0]),
-              file = angular.element(element.find("input")[0]);
+            var button = angular.element(element.children()[0]);
+            var file = angular.element(element.find("input")[0]);
+
             button.bind('click', function (e) {
               file[0].click();
             });
@@ -48,6 +55,14 @@ angular.module('ngS3upload.directives', []).
             // Update the scope with the view value
             ngModel.$render = function () {
               scope.filename = ngModel.$viewValue;
+              if(opts.fileType){
+                scope.filetype = opts.fileType + '/*';
+              }
+              else {
+                scope.filetype = '*';
+              }
+              //scope.buttonName = buttonName;
+
             };
 
             var uploadFile = function () {

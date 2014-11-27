@@ -28,7 +28,7 @@ angular.module('ngS3upload',
     ]);
 angular.module('ngS3upload.config', []).
   constant('ngS3Config', {
-    theme: 'bootstrap2'
+    theme: 'ionic'
   });angular.module('ngS3upload.services', []).
   service('S3Uploader', ['$http', '$q', '$window', function ($http, $q, $window) {
     this.uploads = 0;
@@ -177,13 +177,20 @@ angular.module('ngS3upload.directives', []).
               uploadingKey: 'uploading',
               folder: '',
               enableValidation: true,
-              targetFilename: null
+              targetFilename: null,
+              fileType: null,
+              buttonName: 'Upload',
+              buttonStyle: ''
             }, opts);
+
             var bucket = scope.$eval(attrs.bucket);
+            scope.buttonName = opts.buttonName;
+            scope.buttonStyle = opts.buttonStyle;
 
             // Bind the button click event
-            var button = angular.element(element.children()[0]),
-              file = angular.element(element.find("input")[0]);
+            var button = angular.element(element.children()[0]);
+            var file = angular.element(element.find("input")[0]);
+
             button.bind('click', function (e) {
               file[0].click();
             });
@@ -191,6 +198,14 @@ angular.module('ngS3upload.directives', []).
             // Update the scope with the view value
             ngModel.$render = function () {
               scope.filename = ngModel.$viewValue;
+              if(opts.fileType){
+                scope.filetype = opts.fileType + '/*';
+              }
+              else {
+                scope.filetype = '*';
+              }
+              //scope.buttonName = buttonName;
+
             };
 
             var uploadFile = function () {
@@ -285,6 +300,31 @@ angular.module('ngS3upload').run(['$templateCache', function($templateCache) {
     "  </div>\n" +
     "  <input type=\"file\" style=\"display: none\"/>\n" +
     "</div>"
+  );
+
+
+  $templateCache.put('theme/ionic.html',
+    "<div class=\"upload-wrap\">\n" +
+    "  \n" +
+    "\t<button class=\"button {{ buttonStyle }}\">{{ buttonName }}</button>\n" +
+    "\n" +
+    "  <!--\n" +
+    "  <button class=\"btn btn-primary\" type=\"button\"><span ng-if=\"!filename\">Choose file</span><span ng-if=\"filename\">Replace file</span></button>\n" +
+    "  -->\n" +
+    "\n" +
+    "  <a ng-href=\"{{ filename  }}\" target=\"_blank\" class=\"\" ng-if=\"filename\" > Stored file </a>\n" +
+    "  \n" +
+    "\n" +
+    "  <div class=\"progress\" ng-if=\"progress > 0 && progress < 100\">\n" +
+    "\t  <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" aria-valuenow=\"{{ progress }}\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: {{ progress }}%;\">\n" +
+    "\t    {{ progress }}%\n" +
+    "\t  </div>\n" +
+    "\t</div>\n" +
+    "\n" +
+    "  <input type=\"file\" style=\"display: none\" accept=\"{{ filetype }}\"/>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n"
   );
 
 }]);

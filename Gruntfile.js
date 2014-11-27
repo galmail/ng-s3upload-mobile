@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     library: grunt.file.readJSON('bower.json'),
     ngtemplates:  {
       app:        {
-        cwd:      'src/<%= library.name %>/templates',
+        cwd:      'src/<%= library.original %>/templates',
         src:      'theme/**.html',
         dest:     '.tmp/templates.js',
         options: {
@@ -22,15 +22,15 @@ module.exports = function (grunt) {
       },
       library: {
         src: [
-          'src/<%= library.name %>/<%= library.name %>.prefix',
-          'src/<%= library.name %>/<%= library.name %>.js',
-          'src/<%= library.name %>/services/**/*.js',
-          'src/<%= library.name %>/directives/**/*.js',
-          'src/<%= library.name %>/filters/**/*.js',
+          'src/<%= library.original %>/<%= library.original %>.prefix',
+          'src/<%= library.original %>/<%= library.original %>.js',
+          'src/<%= library.original %>/services/**/*.js',
+          'src/<%= library.original %>/directives/**/*.js',
+          'src/<%= library.original %>/filters/**/*.js',
           '<%= ngtemplates.app.dest %>',
-          'src/<%= library.name %>/<%= library.name %>.suffix'
+          'src/<%= library.original %>/<%= library.original %>.suffix'
         ],
-        dest: 'build/<%= library.name %>.js'
+        dest: 'build/<%= library.original %>.js'
       }
     },
     uglify: {
@@ -39,13 +39,13 @@ module.exports = function (grunt) {
       },
       jid: {
         files: {
-          'build/<%= library.name %>.min.js': ['<%= concat.library.dest %>']
+          'build/<%= library.original %>.min.js': ['<%= concat.library.dest %>']
         }
       }
     },
     jshint: {
       beforeConcat: {
-        src: ['gruntfile.js', '<%= library.name %>/**/*.js']
+        src: ['gruntfile.js', '<%= library.original %>/**/*.js']
       },
       afterConcat: {
         src: [

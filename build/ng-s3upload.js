@@ -100,6 +100,7 @@ angular.module('ngS3upload.config', []).
             scope.success = true;
             deferred.resolve(xhr);
             scope.$emit('s3upload:success', xhr, {path: uri + key});
+            if(scope.uploadCompleteCallback) scope.uploadCompleteCallback.apply();
           } else {
             scope.success = false;
             deferred.reject(xhr);
@@ -204,8 +205,6 @@ angular.module('ngS3upload.directives', []).
               else {
                 scope.filetype = '*';
               }
-              //scope.buttonName = buttonName;
-
             };
 
             var uploadFile = function () {
@@ -306,14 +305,7 @@ angular.module('ngS3upload').run(['$templateCache', function($templateCache) {
   $templateCache.put('theme/ionic.html',
     "<div class=\"upload-wrap\">\n" +
     "  \n" +
-    "\t<button class=\"button {{ buttonStyle }}\">{{ buttonName }}</button>\n" +
-    "\n" +
-    "  <!--\n" +
-    "  <button class=\"btn btn-primary\" type=\"button\"><span ng-if=\"!filename\">Choose file</span><span ng-if=\"filename\">Replace file</span></button>\n" +
-    "  -->\n" +
-    "\n" +
-    "  <a ng-href=\"{{ filename  }}\" target=\"_blank\" class=\"\" ng-if=\"filename\" > Stored file </a>\n" +
-    "  \n" +
+    "\t<button ng-hide=\"progress > 0 && progress < 100\" class=\"button {{ buttonStyle }}\">{{ buttonName }}</button>\n" +
     "\n" +
     "  <div class=\"progress\" ng-if=\"progress > 0 && progress < 100\">\n" +
     "\t  <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" aria-valuenow=\"{{ progress }}\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: {{ progress }}%;\">\n" +

@@ -61,8 +61,6 @@ angular.module('ngS3upload.directives', []).
               else {
                 scope.filetype = '*';
               }
-              //scope.buttonName = buttonName;
-
             };
 
             var uploadFile = function () {

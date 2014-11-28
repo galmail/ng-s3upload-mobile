@@ -69,6 +69,7 @@ angular.module('ngS3upload.services', []).
             scope.success = true;
             deferred.resolve(xhr);
             scope.$emit('s3upload:success', xhr, {path: uri + key});
+            if(scope.uploadCompleteCallback) scope.uploadCompleteCallback.apply();
           } else {
             scope.success = false;
             deferred.reject(xhr);

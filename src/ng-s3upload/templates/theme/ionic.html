@@ -1,13 +1,6 @@
 <div class="upload-wrap">
   
-	<button class="button {{ buttonStyle }}">{{ buttonName }}</button>
-
-  <!--
-  <button class="btn btn-primary" type="button"><span ng-if="!filename">Choose file</span><span ng-if="filename">Replace file</span></button>
-  -->
-
-  <a ng-href="{{ filename  }}" target="_blank" class="" ng-if="filename" > Stored file </a>
-  
+	<button ng-hide="progress > 0 && progress < 100" class="button {{ buttonStyle }}">{{ buttonName }}</button>
 
   <div class="progress" ng-if="progress > 0 && progress < 100">
 	  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;">
